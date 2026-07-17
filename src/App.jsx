@@ -491,7 +491,7 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
           </div>
           <Reveal delay={150} className="relative max-w-sm md:max-w-none mx-auto">
             <div className="group relative ar-45 overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.18)" }}>
-              <img src={CAT_IMG_WOMEN_SUN} alt="Woman wearing iZEN sunglasses" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={HERO_IMG_WOMAN} alt="Woman wearing iZEN sunglasses" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <span className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
               <span className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-transparent group-hover:border-white transition-colors duration-300" />
               <span className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
