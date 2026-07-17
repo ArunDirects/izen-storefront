@@ -12,7 +12,6 @@ import LOGO_WHITE from "./assets/logo-white.webp";
 import CAT_IMG_MEN_SUN from "./assets/cat-men-sunglasses.webp";
 import CAT_IMG_WOMEN_SUN from "./assets/cat-women-sunglasses.webp";
 import CAT_IMG_COMPUTER from "./assets/cat-computer-glasses.webp";
-import HERO_IMG_WOMAN from "./assets/hero-woman.webp";
 import {
   CATEGORIES, PRODUCTS, TESTIMONIALS, FAQS, BLOG_POSTS, WHY_ITEMS,
   FRAME_SHAPES, COLORWAYS, CARD_GRADIENTS,
@@ -145,6 +144,27 @@ function Reveal({ children, className = "", delay = 0, tag: Tag = "div", style =
   );
 }
 
+/* Animates a number counting up from 0 once it scrolls into view. */
+function CountUp({ to, duration = 1400, suffix = "", className = "", style = {} }) {
+  const ref = useRef(null);
+  const visible = useOnScreen(ref, "0px");
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!visible) return;
+    let raf;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(Math.round(eased * to));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [visible, to, duration]);
+  return <span ref={ref} className={className} style={style}>{val.toLocaleString("en-IN")}{suffix}</span>;
+}
+
 /* Bump feedback: returns true briefly whenever `value` changes, for badge/heart pop animations. */
 function useBump(value) {
   const [bump, setBump] = useState(false);
@@ -200,7 +220,7 @@ function IconTextButton({ icon: Icon, children, onClick, active }) {
 
 function ProductCard({ product, onOpen, onAdd, onWishlist, onCompare, isWished, isCompared }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col card-lift">
       <div className="relative">
         <button onClick={() => onOpen(product.id)} className="block w-full text-left">
           <ProductImage product={product} className="w-full ar-45 cursor-pointer" />
@@ -286,7 +306,7 @@ function NavBar({ view, setView, goShop, cartCount, wishCount, compareCount, sea
 
         <nav className="hidden md:flex items-center gap-8 f-mono fs-12 uppercase tracking-wide relative">
           <div onMouseEnter={() => setMegaOpen(true)} onMouseLeave={() => setMegaOpen(false)} className="relative">
-            <button onClick={() => goShop()} className="flex items-center gap-1 py-8" style={{ color: view === "shop" ? "var(--signal)" : "var(--ink)" }}>
+            <button onClick={() => goShop()} className="nav-link flex items-center gap-1 py-8" style={{ color: view === "shop" ? "var(--signal)" : "var(--ink)" }}>
               Shop <ChevronDown size={13} />
             </button>
             <div
@@ -310,9 +330,9 @@ function NavBar({ view, setView, goShop, cartCount, wishCount, compareCount, sea
               </div>
             </div>
           </div>
-          <button onClick={() => setView("about")} style={{ color: view === "about" ? "var(--signal)" : "var(--ink)" }}>About</button>
-          <button onClick={() => setView("blog")} style={{ color: view === "blog" ? "var(--signal)" : "var(--ink)" }}>Journal</button>
-          <button onClick={() => setView("contact")} style={{ color: view === "contact" ? "var(--signal)" : "var(--ink)" }}>Contact</button>
+          <button onClick={() => setView("about")} className="nav-link py-8" style={{ color: view === "about" ? "var(--signal)" : "var(--ink)" }}>About</button>
+          <button onClick={() => setView("blog")} className="nav-link py-8" style={{ color: view === "blog" ? "var(--signal)" : "var(--ink)" }}>Journal</button>
+          <button onClick={() => setView("contact")} className="nav-link py-8" style={{ color: view === "contact" ? "var(--signal)" : "var(--ink)" }}>Contact</button>
         </nav>
 
         <div className="flex items-center gap-4 md:gap-5">
@@ -455,7 +475,7 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
       {/* HERO */}
       <section className="relative overflow-hidden" style={{ background: "var(--ink)" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-10 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div>
+          <div className="hero-stagger">
             <Eyebrow tone="light">Autumn/Winter 2026 Collection</Eyebrow>
             <h1 className="f-display text-5xl md:text-6xl lh-tight2 mt-5" style={{ color: "#fff" }}>
               See everything.<br />Feel nothing.
@@ -469,20 +489,79 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
             </div>
           </div>
           <Reveal delay={150} className="relative max-w-sm md:max-w-none mx-auto">
-            <div className="group relative ar-45 overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.18)" }}>
-              <img src={HERO_IMG_WOMAN} alt="iZEN eyeglasses, worn" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div className="group relative ar-45 overflow-hidden blueprint-grid" style={{ border: "1px solid rgba(255,255,255,0.18)", background: "linear-gradient(160deg, #1B3C58, #0F2337 75%)" }}>
+              <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 32% 26%, rgba(228,103,42,0.18), transparent 55%)" }} />
+              <div className="absolute inset-0 flex flex-col">
+                <div className="flex-1 flex items-center justify-center px-8 pt-10 pb-2">
+                  <svg viewBox="0 0 240 160" className="w-full" style={{ maxWidth: 250 }} fill="none"
+                    role="img" aria-label="Diagram of iZEN frame measurements: 142 millimeter frame width, 138 millimeter temple length">
+                    {/* frame-width dimension */}
+                    <line x1="35" y1="40" x2="35" y2="22" stroke="rgba(255,255,255,0.35)" strokeWidth="1" strokeDasharray="2,3" />
+                    <line x1="205" y1="40" x2="205" y2="22" stroke="rgba(255,255,255,0.35)" strokeWidth="1" strokeDasharray="2,3" />
+                    <line x1="35" y1="24" x2="205" y2="24" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
+                    <path d="M35,24 l5,-2.5 M35,24 l5,2.5 M205,24 l-5,-2.5 M205,24 l-5,2.5" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
+                    <text x="120" y="14" textAnchor="middle" className="f-mono" style={{ fontSize: "8px", letterSpacing: "0.08em", fill: "rgba(255,255,255,0.55)" }}>142MM FRAME WIDTH</text>
+
+                    {/* temple-length dimension */}
+                    <line x1="212" y1="66" x2="230" y2="66" stroke="rgba(255,255,255,0.35)" strokeWidth="1" strokeDasharray="2,3" />
+                    <line x1="230" y1="66" x2="230" y2="140" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
+                    <text x="234" y="105" textAnchor="middle" className="f-mono" style={{ fontSize: "8px", letterSpacing: "0.08em", fill: "rgba(255,255,255,0.55)" }} transform="rotate(90 234 105)">138MM TEMPLE</text>
+
+                    {/* glasses line-art, drawn on load */}
+                    <rect className="draw-line" x="35" y="40" width="70" height="52" rx="16" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 230, strokeDashoffset: 230, animationDelay: "0ms" }} />
+                    <rect className="draw-line" x="135" y="40" width="70" height="52" rx="16" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 230, strokeDashoffset: 230, animationDelay: "150ms" }} />
+                    <path className="draw-line" d="M105,54 Q120,46 135,54" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 60, strokeDashoffset: 60, animationDelay: "550ms" }} />
+                    <path className="draw-line" d="M35,56 C24,56 17,59 12,66" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 40, strokeDashoffset: 40, animationDelay: "700ms" }} />
+                    <path className="draw-line" d="M205,56 C216,56 223,59 228,66" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 40, strokeDashoffset: 40, animationDelay: "780ms" }} />
+                    <circle cx="35" cy="48" r="2.5" fill="#fff" className="dim-in" style={{ animationDelay: "900ms" }} />
+                    <circle cx="205" cy="48" r="2.5" fill="#fff" className="dim-in" style={{ animationDelay: "950ms" }} />
+
+                    {/* focus reticle, ambient pulse */}
+                    <circle cx="70" cy="66" r="4" fill="none" stroke="var(--signal-2)" strokeWidth="1.5" className="focus-pulse" style={{ transformOrigin: "50% 50%", transformBox: "fill-box" }} />
+                    <circle cx="70" cy="66" r="1.5" fill="var(--signal-2)" />
+                  </svg>
+                </div>
+                <div className="dim-in px-6 pb-6 pt-3" style={{ animationDelay: "1050ms", borderTop: "1px solid rgba(255,255,255,0.14)" }}>
+                  <div className="f-mono fs-9 uppercase tracking-wide mb-2" style={{ color: "rgba(255,255,255,0.4)" }}>Spec sheet — iZEN Horizon</div>
+                  {[["Bridge", "16MM"], ["Weight", "18G"], ["Material", "TR90 Polymer"], ["Warranty", "12 Months"]].map(([k, v]) => (
+                    <div key={k} className="flex items-baseline gap-2 f-mono fs-10 mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>
+                      <span>{k}</span>
+                      <span className="flex-1 border-b border-dotted" style={{ borderColor: "rgba(255,255,255,0.25)", transform: "translateY(-3px)" }} />
+                      <span>{v}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
               <span className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
               <span className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-transparent group-hover:border-white transition-colors duration-300" />
               <span className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
               <span className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-transparent group-hover:border-white transition-colors duration-300" />
             </div>
-            <div className="absolute -bottom-6 -left-4 md:-left-7 px-5 py-3.5" style={{ background: "#fff" }}>
+            <div className="absolute -bottom-6 -left-4 md:-left-7 px-5 py-3.5 float-slow" style={{ background: "#fff" }}>
               <Stars rating={4.8} size={12} />
-              <div className="f-mono fs-10 mt-1 whitespace-nowrap" style={{ color: "var(--ink)" }}>12,000+ happy customers</div>
+              <div className="f-mono fs-10 mt-1 whitespace-nowrap" style={{ color: "var(--ink)" }}>
+                <CountUp to={12000} />+ happy customers
+              </div>
             </div>
           </Reveal>
         </div>
       </section>
+
+      {/* TRUST MARQUEE */}
+      <div className="marquee-wrap overflow-hidden" style={{ background: "var(--ink)", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+        <div className="marquee-track py-3">
+          {[0, 1].map((dup) => (
+            <div key={dup} className="flex items-center gap-10 pr-10 flex-shrink-0">
+              {["12-Month Warranty", "14-Day Easy Returns", "UV400 Protection", "4–6 Day Lens Turnaround", "Free Shipping ₹2,499+", "Precision Frame Measurements"].map((t) => (
+                <span key={t} className="f-mono fs-11 uppercase tracking-wide whitespace-nowrap flex items-center gap-2" style={{ color: "rgba(255,255,255,0.55)" }}>
+                  <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: "var(--signal)" }} />
+                  {t}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* FEATURED COLLECTIONS */}
       <section className="max-w-7xl mx-auto px-5 md:px-8 py-14 md:py-16">
@@ -667,7 +746,7 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {visibleTesti.map((t, i) => (
-            <Reveal key={`${testiIdx}-${i}`} delay={i * 60} className="p-7" style={{ border: "1px solid var(--line)" }}>
+            <Reveal key={`${testiIdx}-${i}`} delay={i * 60} className="p-7 card-lift" style={{ border: "1px solid var(--line)" }}>
               <Stars rating={t.rating} />
               <p className="f-display text-lg mt-4 leading-snug" style={{ color: "var(--ink)" }}>"{t.text}"</p>
               <div className="f-mono text-xs mt-5" style={{ color: "var(--ink-2)" }}>{t.name} · {t.city}</div>
