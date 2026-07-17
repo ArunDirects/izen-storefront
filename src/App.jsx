@@ -12,6 +12,7 @@ import LOGO_WHITE from "./assets/logo-white.webp";
 import CAT_IMG_MEN_SUN from "./assets/cat-men-sunglasses.webp";
 import CAT_IMG_WOMEN_SUN from "./assets/cat-women-sunglasses.webp";
 import CAT_IMG_COMPUTER from "./assets/cat-computer-glasses.webp";
+import HERO_IMG_WOMAN from "./assets/hero-woman.webp";
 import {
   CATEGORIES, PRODUCTS, TESTIMONIALS, FAQS, BLOG_POSTS, WHY_ITEMS,
   FRAME_SHAPES, COLORWAYS, CARD_GRADIENTS,
@@ -489,49 +490,8 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
             </div>
           </div>
           <Reveal delay={150} className="relative max-w-sm md:max-w-none mx-auto">
-            <div className="group relative ar-45 overflow-hidden blueprint-grid" style={{ border: "1px solid rgba(255,255,255,0.18)", background: "linear-gradient(160deg, #1B3C58, #0F2337 75%)" }}>
-              <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 32% 26%, rgba(228,103,42,0.18), transparent 55%)" }} />
-              <div className="absolute inset-0 flex flex-col">
-                <div className="flex-1 flex items-center justify-center px-8 pt-10 pb-2">
-                  <svg viewBox="0 0 240 160" className="w-full" style={{ maxWidth: 250 }} fill="none"
-                    role="img" aria-label="Diagram of iZEN frame measurements: 142 millimeter frame width, 138 millimeter temple length">
-                    {/* frame-width dimension */}
-                    <line x1="35" y1="40" x2="35" y2="22" stroke="rgba(255,255,255,0.35)" strokeWidth="1" strokeDasharray="2,3" />
-                    <line x1="205" y1="40" x2="205" y2="22" stroke="rgba(255,255,255,0.35)" strokeWidth="1" strokeDasharray="2,3" />
-                    <line x1="35" y1="24" x2="205" y2="24" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
-                    <path d="M35,24 l5,-2.5 M35,24 l5,2.5 M205,24 l-5,-2.5 M205,24 l-5,2.5" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
-                    <text x="120" y="14" textAnchor="middle" className="f-mono" style={{ fontSize: "8px", letterSpacing: "0.08em", fill: "rgba(255,255,255,0.55)" }}>142MM FRAME WIDTH</text>
-
-                    {/* temple-length dimension */}
-                    <line x1="212" y1="66" x2="230" y2="66" stroke="rgba(255,255,255,0.35)" strokeWidth="1" strokeDasharray="2,3" />
-                    <line x1="230" y1="66" x2="230" y2="140" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
-                    <text x="234" y="105" textAnchor="middle" className="f-mono" style={{ fontSize: "8px", letterSpacing: "0.08em", fill: "rgba(255,255,255,0.55)" }} transform="rotate(90 234 105)">138MM TEMPLE</text>
-
-                    {/* glasses line-art, drawn on load */}
-                    <rect className="draw-line" x="35" y="40" width="70" height="52" rx="16" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 230, strokeDashoffset: 230, animationDelay: "0ms" }} />
-                    <rect className="draw-line" x="135" y="40" width="70" height="52" rx="16" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 230, strokeDashoffset: 230, animationDelay: "150ms" }} />
-                    <path className="draw-line" d="M105,54 Q120,46 135,54" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 60, strokeDashoffset: 60, animationDelay: "550ms" }} />
-                    <path className="draw-line" d="M35,56 C24,56 17,59 12,66" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 40, strokeDashoffset: 40, animationDelay: "700ms" }} />
-                    <path className="draw-line" d="M205,56 C216,56 223,59 228,66" stroke="#fff" strokeWidth="2" style={{ strokeDasharray: 40, strokeDashoffset: 40, animationDelay: "780ms" }} />
-                    <circle cx="35" cy="48" r="2.5" fill="#fff" className="dim-in" style={{ animationDelay: "900ms" }} />
-                    <circle cx="205" cy="48" r="2.5" fill="#fff" className="dim-in" style={{ animationDelay: "950ms" }} />
-
-                    {/* focus reticle, ambient pulse */}
-                    <circle cx="70" cy="66" r="4" fill="none" stroke="var(--signal-2)" strokeWidth="1.5" className="focus-pulse" style={{ transformOrigin: "50% 50%", transformBox: "fill-box" }} />
-                    <circle cx="70" cy="66" r="1.5" fill="var(--signal-2)" />
-                  </svg>
-                </div>
-                <div className="dim-in px-6 pb-6 pt-3" style={{ animationDelay: "1050ms", borderTop: "1px solid rgba(255,255,255,0.14)" }}>
-                  <div className="f-mono fs-9 uppercase tracking-wide mb-2" style={{ color: "rgba(255,255,255,0.4)" }}>Spec sheet — iZEN Horizon</div>
-                  {[["Bridge", "16MM"], ["Weight", "18G"], ["Material", "TR90 Polymer"], ["Warranty", "12 Months"]].map(([k, v]) => (
-                    <div key={k} className="flex items-baseline gap-2 f-mono fs-10 mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>
-                      <span>{k}</span>
-                      <span className="flex-1 border-b border-dotted" style={{ borderColor: "rgba(255,255,255,0.25)", transform: "translateY(-3px)" }} />
-                      <span>{v}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="group relative ar-45 overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.18)" }}>
+              <img src={HERO_IMG_WOMAN} alt="Woman wearing iZEN sunglasses" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <span className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
               <span className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-transparent group-hover:border-white transition-colors duration-300" />
               <span className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
@@ -1567,7 +1527,7 @@ function BlogPostPage({ postId, setView, openPost }) {
       <div className="f-mono fs-11 uppercase tracking-wide" style={{ color: "var(--signal)" }}>{post.tag} · {post.readTime} read</div>
       <h1 className="f-display text-4xl mt-3" style={{ color: "var(--ink)" }}>{post.title}</h1>
       <div className="ar-169 my-8" style={{ background: "linear-gradient(135deg, #16324A, #6E7784)" }}>
-        <div className="w-full h-full flex items-center justify-center"><GlassesMark className="w-20 h-10" stroke="rgba(255,255,255,0.6)" /></div>
+        <div className="absolute inset-0 flex items-center justify-center"><GlassesMark className="w-20 h-10" stroke="rgba(255,255,255,0.6)" /></div>
       </div>
       <p className="fs-15 leading-relaxed" style={{ color: "var(--ink-2)" }}>{post.excerpt}</p>
       <p className="fs-15 leading-relaxed mt-4" style={{ color: "var(--ink-2)" }}>
