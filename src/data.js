@@ -23,7 +23,7 @@ const CATEGORIES = [
   { key: "Men's Sunglasses", label: "Men's Sunglasses", note: "UV400 protection", image: CAT_IMG_MEN_SUN },
   { key: "Women's Sunglasses", label: "Women's Sunglasses", note: "UV400, on-trend", image: CAT_IMG_WOMEN_SUN },
   { key: "Computer Glasses", label: "Computer Glasses", note: "Screen-ready lenses", image: CAT_IMG_COMPUTER },
-  { key: "Blue Light Glasses", label: "Blue Light Glasses", note: "Filtered comfort", image: CAT_IMG_COMPUTER },
+  { key: "Blue Light Glasses", label: "Blue Light Glasses", note: "Filtered comfort", image: null },
   { key: "Reading Glasses", label: "Reading Glasses", note: "+1.0 to +3.5", image: null },
 ];
 

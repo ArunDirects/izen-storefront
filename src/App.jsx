@@ -12,7 +12,7 @@ import LOGO_WHITE from "./assets/logo-white.webp";
 import CAT_IMG_MEN_SUN from "./assets/cat-men-sunglasses.webp";
 import CAT_IMG_WOMEN_SUN from "./assets/cat-women-sunglasses.webp";
 import CAT_IMG_COMPUTER from "./assets/cat-computer-glasses.webp";
-import HERO_IMG_WOMAN from "./assets/hero-woman.webp";
+import HERO_IMG from "./assets/hero-banner.webp";
 import {
   CATEGORIES, PRODUCTS, TESTIMONIALS, FAQS, BLOG_POSTS, WHY_ITEMS,
   FRAME_SHAPES, COLORWAYS, CARD_GRADIENTS,
@@ -474,14 +474,16 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
   return (
     <div>
       {/* HERO */}
-      <section className="relative overflow-hidden" style={{ background: "var(--ink)" }}>
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-10 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div className="hero-stagger">
+      <section className="group relative overflow-hidden" style={{ background: "var(--ink)" }}>
+        <img src={HERO_IMG} alt="iZEN eyeglasses on a marble surface" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(100deg, rgba(21,43,64,0.94) 0%, rgba(21,43,64,0.86) 32%, rgba(21,43,64,0.55) 58%, rgba(21,43,64,0.22) 78%, rgba(21,43,64,0.08) 100%)" }} />
+        <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-40">
+          <div className="hero-stagger max-w-lg">
             <Eyebrow tone="light">Autumn/Winter 2026 Collection</Eyebrow>
             <h1 className="f-display text-5xl md:text-6xl lh-tight2 mt-5" style={{ color: "#fff" }}>
               See everything.<br />Feel nothing.
             </h1>
-            <p className="mt-6 text-base max-w-md" style={{ color: "#B9B6AC" }}>
+            <p className="mt-6 text-base max-w-md" style={{ color: "#DCD5C4" }}>
               Frames engineered around real face measurements and real daily wear — not just how they photograph.
             </p>
             <div className="flex flex-wrap items-center gap-4 mt-9">
@@ -489,22 +491,13 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
               <OutlineButton onClick={() => setView("about")} inverted>Our story</OutlineButton>
             </div>
           </div>
-          <Reveal delay={150} className="relative max-w-sm md:max-w-none mx-auto">
-            <div className="group relative ar-45 overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.18)" }}>
-              <img src={HERO_IMG_WOMAN} alt="Woman wearing iZEN sunglasses" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <span className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
-              <span className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-transparent group-hover:border-white transition-colors duration-300" />
-              <span className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-transparent group-hover:border-white transition-colors duration-300" />
-              <span className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-transparent group-hover:border-white transition-colors duration-300" />
-            </div>
-            <div className="absolute -bottom-6 -left-4 md:-left-7 px-5 py-3.5 float-slow" style={{ background: "#fff" }}>
-              <Stars rating={4.8} size={12} />
-              <div className="f-mono fs-10 mt-1 whitespace-nowrap" style={{ color: "var(--ink)" }}>
-                <CountUp to={12000} />+ happy customers
-              </div>
-            </div>
-          </Reveal>
         </div>
+        <Reveal delay={200} className="absolute bottom-6 right-5 md:bottom-10 md:right-8 px-5 py-3.5 float-slow" style={{ background: "#fff" }}>
+          <Stars rating={4.8} size={12} />
+          <div className="f-mono fs-10 mt-1 whitespace-nowrap" style={{ color: "var(--ink)" }}>
+            <CountUp to={12000} />+ happy customers
+          </div>
+        </Reveal>
       </section>
 
       {/* TRUST MARQUEE */}
@@ -534,7 +527,13 @@ function Home({ setView, openProduct, goShop, addToCart, toggleWishlist, toggleC
           ].map((c, i) => (
             <Reveal key={c.cat} delay={i * 60}>
             <button onClick={() => goShop(c.cat)} className="group relative h-72 w-full overflow-hidden text-left">
-              <img src={c.img} alt={c.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              {c.img ? (
+                <img src={c.img} alt={c.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-105" style={{ background: `linear-gradient(135deg, ${CARD_GRADIENTS[i % CARD_GRADIENTS.length][0]}, ${CARD_GRADIENTS[i % CARD_GRADIENTS.length][1]})` }}>
+                  <GlassesMark className="w-20 h-10" stroke="rgba(255,255,255,0.5)" />
+                </div>
+              )}
               <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(21,43,64,0.75), rgba(21,43,64,0.05) 55%)" }} />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <div className="f-display text-xl text-white">{c.label}</div>
